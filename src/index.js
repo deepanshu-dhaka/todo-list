@@ -1,7 +1,7 @@
 import "./styles.css";
 
 
-function ToDoItem(title, description = "", dueDate, priority = "p3", projectName = "inbox") {
+function ToDoItem(title, description, dueDate, priority = "p3", projectName = "inbox") {
     const ID = crypto.randomUUID();
     return { title, ID, description, dueDate, priority, projectName };
 }
@@ -20,7 +20,7 @@ function createProject(newProjectName) {
     }
 }
 
-function createToDoItem(title, description = "", dueDate, priority, projectName) {
+function createToDoItem(title, description, dueDate, priority, projectName) {
     console.log(title, description, dueDate, priority, projectName)
     const todoItem = ToDoItem(title, description, dueDate, priority, projectName);
 
@@ -68,7 +68,11 @@ function getFormData(formRef) {
     const formData = new FormData(formRef);
     let arrOfValues = []
     for (const [key, value] of formData) {
+        console.log(`${key}: ${value}`);
         arrOfValues.push(value)
+    }
+    if (arrOfValues.length === 4) {
+        arrOfValues.splice(1, 0, "");
     }
     console.log(arrOfValues)
     return arrOfValues;
@@ -79,11 +83,12 @@ submitBtn.addEventListener("click", (event) => {
     event.preventDefault();
     const arrOfFormValues = getFormData(formRef);
     const title = arrOfFormValues[0];
-    const projectName = arrOfFormValues[1];
-    const todoItemDueDate = arrOfFormValues[2];
-    const priority = arrOfFormValues[3];
+    const description = arrOfFormValues[1];
+    const projectName = arrOfFormValues[2];
+    const todoItemDueDate = arrOfFormValues[3];
+    const priority = arrOfFormValues[4];
 
-    createToDoItem(title, "", todoItemDueDate, priority, projectName);
+    createToDoItem(title, description, todoItemDueDate, priority, projectName);
 
     console.log(todoItemsInsideInboxProject);
     console.log(listOfAllProjectsExceptInbox);
@@ -98,6 +103,7 @@ descriptionBtn.addEventListener("click", (event) => {
         return;
     }
     const description = document.createElement("input");
+    description.name = "description"
     description.type = "text";
     description.placeholder = "Description"
     description.classList.add("description");
@@ -106,3 +112,7 @@ descriptionBtn.addEventListener("click", (event) => {
     description.focus({ focusVisible: true });
     isDescriptionFieldAlreadyOnTheScreen = true;
 })
+
+// if (!isDescriptionFieldAlreadyOnTheScreen) {
+
+// }
