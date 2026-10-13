@@ -100,9 +100,9 @@ descriptionBtn.addEventListener("click", (event) => {
     const description = document.createElement("input");
     description.type = "text";
     description.placeholder = "Description"
-    description.focus({ focusVisible: true });
     description.classList.add("description");
     formContainer.style.height = "7.7rem";
     textAreaToEnterTodoItem.insertAdjacentElement("afterend", description);
+    description.focus({ focusVisible: true });
     isDescriptionFieldAlreadyOnTheScreen = true;
 })
