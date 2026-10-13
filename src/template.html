@@ -5,5 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo-List</title>
   </head>
-  <body></body>
+  <body>
+    <div class="web-page-container">
+      <div class="sidebar"></div>
+      <div class="main-content">
+        <div class="todo-item-container">
+          <form class="todo-item-collection-form">
+            <div class="first-half-of-form">
+              <input
+                class="text-area-to-enter-todo-item"
+                type="text"
+                name="todo-item"
+                id="todo-item"
+                placeholder="Type your task here"
+                autofocus
+              />
+            </div>
+            <div class="second-half-of-form">
+              <div>
+                <select name="project" id="project">
+                  <option value="inbox">inbox</option>
+                  <option value="project1">project1</option>
+                </select>
+                <input
+                  class="date"
+                  type="date"
+                  id="todo-item-due-date"
+                  name="todo-item-due-date"
+                />
+                <select name="priority" id="priority">
+                  <option checked value="priority">priority</option>
+                  <option value="p1">p1</option>
+                  <option value="p2">p2</option>
+                  <option value="p3">p3</option>
+                </select>
+                <button type="button" class="description-btn">
+                  Description
+                </button>
+              </div>
+              <div>
+                <button class="submitBtn" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

@@ -1,3 +1,65 @@
-body {
-  background-color: rebeccapurple;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* Remove default margin */
+*:not(dialog) {
+  margin: 0;
+  padding: 0;
+}
+
+.web-page-container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.web-page-container > div {
+  border: 1px solid red;
+}
+
+.sidebar {
+  background-color: rgb(44, 40, 40);
+}
+
+.main-content {
+  background-color: rgb(35, 34, 34);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-item-container {
+  width: 53rem;
+  height: 6rem;
+  background-color: rgb(52, 49, 49);
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.6rem;
+}
+
+.todo-item-collection-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo-item-collection-form input:focus {
+  outline: none;
+}
+
+.todo-item-collection-form div .text-area-to-enter-todo-item,
+.description {
+  border: none;
+  border-radius: 0.5rem;
+  width: 52rem;
+  height: 1.7rem;
+  background-color: rgb(52, 49, 49);
+  color: white;
+}
+
+.second-half-of-form {
+  display: flex;
+  justify-content: space-between;
 }

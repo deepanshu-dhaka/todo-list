@@ -1,23 +1,32 @@
 import "./styles.css";
-console.log("hello, world!");
 
 
-function ToDoItem(title, description, dueDate, priority, notes, checklist, projectName = "inbox") {
+function ToDoItem(title, description = "", dueDate, priority = "p3", projectName = "inbox") {
     const ID = crypto.randomUUID();
-    return { title, ID, description, dueDate, priority, notes, checklist, projectName };
+    return { title, ID, description, dueDate, priority, projectName };
 }
 
-// console.log(arrOfToDoItems)
-let todoItemsInsideInboxProject = {};
-let listOfAllProjectsExceptInbox = { "Gym Workout": [] };
+const todoItemsInsideInboxProject = {};
+const listOfAllProjectsExceptInbox = { "project1": [] };
 
-// function createProject() {
-//     const projectId = crypto.randomUUID();
-//     return projectId;
-// }
+function createProject(newProjectName) {
+    for (const projectName in listOfAllProjectsExceptInbox) {
+        if (newProjectName === projectName) {
+            console.log("Project Name Already Exists!")
+        }
+        else {
+            listOfAllProjectsExceptInbox[newProjectName] = [];
+        }
+    }
+}
 
-function createToDoItem(title, description, dueDate, priority, notes, checklist, projectName = "inbox") {
-    const todoItem = ToDoItem(title, description, dueDate, priority, notes, checklist, projectName);
+function createToDoItem(title, description = "", dueDate, priority, projectName) {
+    console.log(title, description, dueDate, priority, projectName)
+    const todoItem = ToDoItem(title, description, dueDate, priority, projectName);
+
+    if (priority == false) {
+        todoItem.priority = "p3"
+    }
 
     if (todoItem.projectName === "inbox") {
         todoItemsInsideInboxProject[todoItem.ID] = todoItem;
@@ -30,7 +39,70 @@ function createToDoItem(title, description, dueDate, priority, notes, checklist,
     }
 }
 
-createToDoItem("Do 10 pullups", "When you go to the gym, make sure to do 10 pullups", "25-09-2026", "p1", "nothing", "false", "Gym Workout");
+function returnInbox(todoItemsInsideInboxProject) {
+    return todoItemsInsideInboxProject;
+}
 
-console.log("no", todoItemsInsideInboxProject);
-console.log(listOfAllProjectsExceptInbox);
+function returnListOfAllProjectsExceptInbox(listOfAllProjectsExceptInbox) {
+    return listOfAllProjectsExceptInbox;
+}
+
+function setUpPriority(newPriority, todoItem) {
+    todoItem.priority = newPriority;
+
+}
+
+function setToDoItemAsComplete(todoItem) {
+    todoItem.checklist = true;
+}
+
+function setToDoItemAsNotComplete(todoItem) {
+    todoItem.checklist = false;
+}
+
+
+const formRef = document.querySelector(".todo-item-collection-form");
+const formContainer = document.querySelector(".todo-item-container");
+
+function getFormData(formRef) {
+    const formData = new FormData(formRef);
+    let arrOfValues = []
+    for (const [key, value] of formData) {
+        arrOfValues.push(value)
+    }
+    console.log(arrOfValues)
+    return arrOfValues;
+}
+
+const submitBtn = document.querySelector(".submitBtn")
+submitBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    const arrOfFormValues = getFormData(formRef);
+    const title = arrOfFormValues[0];
+    const projectName = arrOfFormValues[1];
+    const todoItemDueDate = arrOfFormValues[2];
+    const priority = arrOfFormValues[3];
+
+    createToDoItem(title, "", todoItemDueDate, priority, projectName);
+
+    console.log(todoItemsInsideInboxProject);
+    console.log(listOfAllProjectsExceptInbox);
+})
+
+let isDescriptionFieldAlreadyOnTheScreen = false;
+const textAreaToEnterTodoItem = document.querySelector(".text-area-to-enter-todo-item");
+const descriptionBtn = document.querySelector(".description-btn");
+descriptionBtn.addEventListener("click", (event) => {
+    if (isDescriptionFieldAlreadyOnTheScreen == true) {
+        console.log("hello")
+        return;
+    }
+    const description = document.createElement("input");
+    description.type = "text";
+    description.placeholder = "Description"
+    description.focus({ focusVisible: true });
+    description.classList.add("description");
+    formContainer.style.height = "7.7rem";
+    textAreaToEnterTodoItem.insertAdjacentElement("afterend", description);
+    isDescriptionFieldAlreadyOnTheScreen = true;
+})
