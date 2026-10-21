@@ -6,8 +6,6 @@ function ToDoItem(title, description, dueDate, priority = "p3", projectName = "i
     return { title, ID, description, dueDate, priority, projectName };
 }
 
-const todoItemsInsideInboxProject = {};
-const listOfAllProjectsExceptInbox = { "project1": [] };
 
 function createProject(newProjectName) {
     for (const projectName in listOfAllProjectsExceptInbox) {
@@ -23,41 +21,10 @@ function createProject(newProjectName) {
 function createToDoItem(title, description, dueDate, priority, projectName) {
     console.log(title, description, dueDate, priority, projectName)
     const todoItem = ToDoItem(title, description, dueDate, priority, projectName);
+    let todoId = String(todoItem.ID);
 
-    if (priority == false) {
-        todoItem.priority = "p3"
-    }
-
-    if (todoItem.projectName === "inbox") {
-        todoItemsInsideInboxProject[todoItem.ID] = todoItem;
-    }
-
-    for (const projectName in listOfAllProjectsExceptInbox) {
-        if (todoItem.projectName === projectName) {
-            listOfAllProjectsExceptInbox[projectName].push(todoItem);
-        }
-    }
-}
-
-function returnInbox(todoItemsInsideInboxProject) {
-    return todoItemsInsideInboxProject;
-}
-
-function returnListOfAllProjectsExceptInbox(listOfAllProjectsExceptInbox) {
-    return listOfAllProjectsExceptInbox;
-}
-
-function setUpPriority(newPriority, todoItem) {
-    todoItem.priority = newPriority;
-
-}
-
-function setToDoItemAsComplete(todoItem) {
-    todoItem.checklist = true;
-}
-
-function setToDoItemAsNotComplete(todoItem) {
-    todoItem.checklist = false;
+    localStorage.setItem(todoId, JSON.stringify(todoItem))
+    console.log("hello", JSON.parse(localStorage.getItem(todoId)));
 }
 
 
@@ -89,9 +56,6 @@ submitBtn.addEventListener("click", (event) => {
     const priority = arrOfFormValues[4];
 
     createToDoItem(title, description, todoItemDueDate, priority, projectName);
-
-    console.log(todoItemsInsideInboxProject);
-    console.log(listOfAllProjectsExceptInbox);
 })
 
 let isDescriptionFieldAlreadyOnTheScreen = false;
