@@ -1,49 +1,13 @@
 import "./styles.css";
-
-
-function ToDoItem(title, description, dueDate, priority = "p3", projectName = "inbox") {
-    const ID = crypto.randomUUID();
-    return { title, ID, description, dueDate, priority, projectName };
-}
-
-
-function createProject(newProjectName) {
-    for (const projectName in listOfAllProjectsExceptInbox) {
-        if (newProjectName === projectName) {
-            console.log("Project Name Already Exists!")
-        }
-        else {
-            listOfAllProjectsExceptInbox[newProjectName] = [];
-        }
-    }
-}
-
-function createToDoItem(title, description, dueDate, priority, projectName) {
-    console.log(title, description, dueDate, priority, projectName)
-    const todoItem = ToDoItem(title, description, dueDate, priority, projectName);
-    let todoId = String(todoItem.ID);
-
-    localStorage.setItem(todoId, JSON.stringify(todoItem))
-    console.log("hello", JSON.parse(localStorage.getItem(todoId)));
-}
+import { createTodoItem } from "./createTodoItems.js";
+import { getFormData } from "./getFormData.js";
+import { storeFormData, consoleStoredData } from "./localStorage.js";
 
 
 const formRef = document.querySelector(".todo-item-collection-form");
 const formContainer = document.querySelector(".todo-item-container");
 
-function getFormData(formRef) {
-    const formData = new FormData(formRef);
-    let arrOfValues = []
-    for (const [key, value] of formData) {
-        console.log(`${key}: ${value}`);
-        arrOfValues.push(value)
-    }
-    if (arrOfValues.length === 4) {
-        arrOfValues.splice(1, 0, "");
-    }
-    console.log(arrOfValues)
-    return arrOfValues;
-}
+
 
 const submitBtn = document.querySelector(".submitBtn")
 submitBtn.addEventListener("click", (event) => {
@@ -55,7 +19,12 @@ submitBtn.addEventListener("click", (event) => {
     const todoItemDueDate = arrOfFormValues[3];
     const priority = arrOfFormValues[4];
 
-    createToDoItem(title, description, todoItemDueDate, priority, projectName);
+    const todoItem = createTodoItem(title, description, todoItemDueDate, priority, projectName);
+
+    //storage work
+    storeFormData(todoItem);
+    consoleStoredData(todoItem);
+
 })
 
 let isDescriptionFieldAlreadyOnTheScreen = false;
@@ -76,7 +45,3 @@ descriptionBtn.addEventListener("click", (event) => {
     description.focus({ focusVisible: true });
     isDescriptionFieldAlreadyOnTheScreen = true;
 })
-
-// if (!isDescriptionFieldAlreadyOnTheScreen) {
-
-// }
