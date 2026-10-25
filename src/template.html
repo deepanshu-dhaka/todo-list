@@ -84,6 +84,14 @@
       </div>
       <div class="main-content">
         <div class="todo-item-container">
+          <dialog id="create-new-project-dialog">
+            <form class="create-new-project-form">
+              <label for="project-name">Project Name</label>
+            <input type="text" name="project-name" id="project-name" />
+            <button class="create-new-project-submit-btn" formmethod="dialog">Submit</button>
+            <button type="button" commandfor="create-new-project-dialog" command="close">Close</button>
+          </dialog>
+            </form>
           <form class="todo-item-collection-form">
             <div class="first-half-of-form">
               <input

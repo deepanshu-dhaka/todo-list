@@ -7,8 +7,6 @@ import { storeFormData, consoleStoredData } from "./localStorage.js";
 const formRef = document.querySelector(".todo-item-collection-form");
 const formContainer = document.querySelector(".todo-item-container");
 
-
-
 const submitBtn = document.querySelector(".submitBtn")
 submitBtn.addEventListener("click", (event) => {
     event.preventDefault();
@@ -44,4 +42,26 @@ descriptionBtn.addEventListener("click", (event) => {
     textAreaToEnterTodoItem.insertAdjacentElement("afterend", description);
     description.focus({ focusVisible: true });
     isDescriptionFieldAlreadyOnTheScreen = true;
+})
+
+const addProjectIcon = document.querySelector(".add-project-icon");
+
+const dialog = document.querySelector("#create-new-project-dialog")
+
+addProjectIcon.addEventListener("click", function () {
+    console.log("clicked");
+    dialog.showModal();
+
+})
+
+const createNewProjectForm = document.querySelector(".create-new-project-form")
+
+const createNewProjectSubmitBtn = document.querySelector(".create-new-project-submit-btn");
+createNewProjectSubmitBtn.addEventListener("click", function () {
+    const formData = new FormData(createNewProjectForm);
+    let arrOfValues = []
+    for (const [key, value] of formData) {
+        console.log(`${key}: ${value}`);
+        arrOfValues.push(value)
+    }
 })
