@@ -1,11 +1,20 @@
 import "./styles.css";
 import { createTodoItem } from "./createTodoItems.js";
 import { getFormData } from "./getFormData.js";
-import { storeFormData, consoleStoredData } from "./localStorage.js";
+import { storeFormData, consoleStoredData, setInitialInboxId } from "./localStorage.js";
 
 
 const formRef = document.querySelector(".todo-item-collection-form");
 const formContainer = document.querySelector(".todo-item-container");
+
+let INBOXID = "";
+const inboxOption = document.querySelector(".inbox-option");
+
+INBOXID = setInitialInboxId(INBOXID);
+
+console.log(INBOXID)
+inboxOption.setAttribute("value", INBOXID);
+
 
 const submitBtn = document.querySelector(".submitBtn")
 submitBtn.addEventListener("click", (event) => {
@@ -20,8 +29,8 @@ submitBtn.addEventListener("click", (event) => {
     const todoItem = createTodoItem(title, description, todoItemDueDate, priority, projectName);
 
     //storage work
-    storeFormData(todoItem);
-    consoleStoredData(todoItem);
+    storeFormData(todoItem, INBOXID);
+    // consoleStoredData(todoItem);
 
 })
 
