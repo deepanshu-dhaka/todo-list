@@ -163,17 +163,19 @@
 .main-content {
   background-color: rgb(35, 34, 34);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.todo-item-container {
+.todo-item-form-container {
   width: 53rem;
   height: 6rem;
   background-color: rgb(52, 49, 49);
   border: 1px solid white;
   border-radius: 0.5rem;
   padding: 0.6rem 0.6rem;
+  margin-top: 25px;
 }
 
 .todo-item-collection-form {
@@ -199,4 +201,35 @@
 .second-half-of-form {
   display: flex;
   justify-content: space-between;
+}
+
+.todo-display-main-div {
+  color: white;
+  width: 53rem;
+}
+
+.checkbox-for-todo {
+  transform: scale(1.5);
+}
+
+.checkbox-and-title-div {
+  display: flex;
+  gap: 9px;
+}
+
+.description-div,
+.date-div {
+  margin-left: 22px;
+}
+
+.checkbox-and-title-div label {
+  font-size: 17px;
+}
+
+.description-para {
+  font-size: 15px;
+}
+
+.date-para {
+  font-size: 12px;
 }

@@ -5,7 +5,8 @@ import { storeFormData, consoleStoredData, setInitialInboxId } from "./localStor
 
 
 const formRef = document.querySelector(".todo-item-collection-form");
-const formContainer = document.querySelector(".todo-item-container");
+const formContainer = document.querySelector(".todo-item-form-container");
+const mainContent = document.querySelector(".main-content");
 
 let INBOXID = "";
 const inboxOption = document.querySelector(".inbox-option");
@@ -32,7 +33,50 @@ submitBtn.addEventListener("click", (event) => {
     storeFormData(todoItem, INBOXID);
     // consoleStoredData(todoItem);
 
+
 })
+displayTodoItem();
+
+function displayTodoItem() {
+    const todoDisplayMainDiv = document.createElement("div");
+    todoDisplayMainDiv.classList.add("todo-display-main-div");
+    mainContent.insertAdjacentElement("afterbegin", todoDisplayMainDiv);
+
+    const checkboxAndTitleDiv = document.createElement("div");
+    checkboxAndTitleDiv.classList.add("checkbox-and-title-div");
+    todoDisplayMainDiv.appendChild(checkboxAndTitleDiv);
+
+    const checkboxForTodo = document.createElement("input");
+    checkboxForTodo.type = "checkbox";
+    checkboxForTodo.id = "something";
+    checkboxForTodo.name = "something";
+    checkboxForTodo.value = "something";
+    checkboxForTodo.classList.add("checkbox-for-todo");
+    checkboxAndTitleDiv.appendChild(checkboxForTodo);
+
+    const labelForCheckboxForTodo = document.createElement("label");
+    labelForCheckboxForTodo.htmlFor = "something";
+    labelForCheckboxForTodo.textContent = "Hello World!";
+    checkboxAndTitleDiv.append(labelForCheckboxForTodo);
+
+    const descriptionDiv = document.createElement("div");
+    descriptionDiv.classList.add("description-div");
+    todoDisplayMainDiv.appendChild(descriptionDiv);
+
+    const descriptionPara = document.createElement("p");
+    descriptionPara.classList.add("description-para");
+    descriptionPara.textContent = "Some description";
+    descriptionDiv.appendChild(descriptionPara);
+
+    const dateDiv = document.createElement("div");
+    dateDiv.classList.add("date-div");
+    todoDisplayMainDiv.appendChild(dateDiv);
+
+    const datePara = document.createElement("p");
+    datePara.classList.add("date-para");
+    datePara.textContent = "Tuesday";
+    dateDiv.appendChild(datePara)
+}
 
 let isDescriptionFieldAlreadyOnTheScreen = false;
 const textAreaToEnterTodoItem = document.querySelector(".text-area-to-enter-todo-item");
