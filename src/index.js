@@ -32,19 +32,23 @@ submitBtn.addEventListener("click", (event) => {
     //storage work
     storeFormData(todoItem, INBOXID);
     // consoleStoredData(todoItem);
+    fetchTodoItemsFromLocalStorage();
 
 
 })
-displayTodoItem();
+const todoItemMainDisplay = document.createElement("div");
+todoItemMainDisplay.classList.add("todo-item-main-display");
+mainContent.insertAdjacentElement("afterbegin", todoItemMainDisplay);
 
-function displayTodoItem() {
-    const todoDisplayMainDiv = document.createElement("div");
-    todoDisplayMainDiv.classList.add("todo-display-main-div");
-    mainContent.insertAdjacentElement("afterbegin", todoDisplayMainDiv);
+
+function displayTodoItem(title, description, dueDate, priority) {
+    const todoItemContainer = document.createElement("div");
+    todoItemContainer.classList.add("todo-item-container");
+    todoItemMainDisplay.appendChild(todoItemContainer)
 
     const checkboxAndTitleDiv = document.createElement("div");
     checkboxAndTitleDiv.classList.add("checkbox-and-title-div");
-    todoDisplayMainDiv.appendChild(checkboxAndTitleDiv);
+    todoItemContainer.appendChild(checkboxAndTitleDiv);
 
     const checkboxForTodo = document.createElement("input");
     checkboxForTodo.type = "checkbox";
@@ -56,27 +60,55 @@ function displayTodoItem() {
 
     const labelForCheckboxForTodo = document.createElement("label");
     labelForCheckboxForTodo.htmlFor = "something";
-    labelForCheckboxForTodo.textContent = "Hello World!";
+    labelForCheckboxForTodo.textContent = title;
     checkboxAndTitleDiv.append(labelForCheckboxForTodo);
 
     const descriptionDiv = document.createElement("div");
     descriptionDiv.classList.add("description-div");
-    todoDisplayMainDiv.appendChild(descriptionDiv);
+    todoItemContainer.appendChild(descriptionDiv);
 
     const descriptionPara = document.createElement("p");
     descriptionPara.classList.add("description-para");
-    descriptionPara.textContent = "Some description";
+    descriptionPara.textContent = description;
     descriptionDiv.appendChild(descriptionPara);
 
     const dateDiv = document.createElement("div");
     dateDiv.classList.add("date-div");
-    todoDisplayMainDiv.appendChild(dateDiv);
+    todoItemContainer.appendChild(dateDiv);
 
     const datePara = document.createElement("p");
     datePara.classList.add("date-para");
-    datePara.textContent = "Tuesday";
+    datePara.textContent = dueDate;
     dateDiv.appendChild(datePara)
 }
+
+
+function fetchTodoItemsFromLocalStorage(projectId = INBOXID) {
+    let inboxTodos = JSON.parse(localStorage.getItem(INBOXID))
+    //array of inbox todos [{todoId:{}}, {todoId:{}},...]
+    console.log(inboxTodos)
+
+    // element: {todoId:{title: "", dueDate: "",...}}
+    inboxTodos.forEach(element => {
+        // i => todoId
+        // element[i] => {title: "", dueDate: "",...}
+        for (const i in element) {
+            console.log("element", element[i]);
+            let title = element[i].title;
+            let description = element[i].description;
+            let dueDate = element[i].dueDate;
+            let priority = element[i].priority;
+            console.log(dueDate, title)
+
+            displayTodoItem(title, description, dueDate, priority)
+        }
+    });
+
+}
+
+fetchTodoItemsFromLocalStorage();
+
+
 
 let isDescriptionFieldAlreadyOnTheScreen = false;
 const textAreaToEnterTodoItem = document.querySelector(".text-area-to-enter-todo-item");

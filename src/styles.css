@@ -203,11 +203,22 @@
   justify-content: space-between;
 }
 
-.todo-display-main-div {
+/* .todo-item-main-display {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+} */
+
+.todo-item-container {
   color: white;
   width: 53rem;
+  padding: 10px 0px;
+  border-bottom: 0.6px solid rgb(128, 128, 128, 0.5);
 }
 
+.todo-item-container:last-child {
+  border: none;
+}
 .checkbox-for-todo {
   transform: scale(1.5);
 }
