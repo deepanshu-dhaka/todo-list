@@ -19,6 +19,7 @@ INBOXID = setInitialInboxId(INBOXID);
 console.log(INBOXID)
 inboxOption.setAttribute("value", INBOXID);
 
+const textAreaToEnterTodoItem = document.querySelector(".text-area-to-enter-todo-item");
 
 const submitBtn = document.querySelector(".submitBtn")
 submitBtn.addEventListener("click", (event) => {
@@ -31,6 +32,13 @@ submitBtn.addEventListener("click", (event) => {
     const priority = arrOfFormValues[4];
 
     const todoItem = createTodoItem(title, description, todoItemDueDate, priority, projectName);
+
+    if (textAreaToEnterTodoItem.checkValidity() === false) {
+        // This is the magic function that displays the validation errors to the user
+        textAreaToEnterTodoItem.reportValidity();
+        return;
+    }
+
 
     storeFormData(todoItem, INBOXID);
     formRef.reset();
@@ -110,7 +118,6 @@ fetchTodoItemsFromLocalStorage();
 
 
 let isDescriptionFieldAlreadyOnTheScreen = false;
-const textAreaToEnterTodoItem = document.querySelector(".text-area-to-enter-todo-item");
 const descriptionBtn = document.querySelector(".description-btn");
 descriptionBtn.addEventListener("click", (event) => {
     if (isDescriptionFieldAlreadyOnTheScreen == true) {
