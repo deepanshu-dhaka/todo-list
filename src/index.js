@@ -3,10 +3,13 @@ import { createTodoItem } from "./createTodoItems.js";
 import { getFormData } from "./getFormData.js";
 import { storeFormData, consoleStoredData, setInitialInboxId } from "./localStorage.js";
 
-
 const formRef = document.querySelector(".todo-item-collection-form");
 const formContainer = document.querySelector(".todo-item-form-container");
 const mainContent = document.querySelector(".main-content");
+
+const todoItemMainDisplay = document.createElement("div");
+todoItemMainDisplay.classList.add("todo-item-main-display");
+mainContent.insertAdjacentElement("afterbegin", todoItemMainDisplay);
 
 let INBOXID = "";
 const inboxOption = document.querySelector(".inbox-option");
@@ -32,13 +35,12 @@ submitBtn.addEventListener("click", (event) => {
     //storage work
     storeFormData(todoItem, INBOXID);
     // consoleStoredData(todoItem);
+    // window.location.reload();
+    todoItemMainDisplay.textContent = "";
     fetchTodoItemsFromLocalStorage();
 
 
 })
-const todoItemMainDisplay = document.createElement("div");
-todoItemMainDisplay.classList.add("todo-item-main-display");
-mainContent.insertAdjacentElement("afterbegin", todoItemMainDisplay);
 
 
 function displayTodoItem(title, description, dueDate, priority) {
