@@ -32,18 +32,14 @@ submitBtn.addEventListener("click", (event) => {
 
     const todoItem = createTodoItem(title, description, todoItemDueDate, priority, projectName);
 
-    //storage work
     storeFormData(todoItem, INBOXID);
-    // consoleStoredData(todoItem);
-    // window.location.reload();
+    formRef.reset();
     todoItemMainDisplay.textContent = "";
     fetchTodoItemsFromLocalStorage();
-
-
 })
 
 
-function displayTodoItem(title, description, dueDate, priority) {
+function displayTodoItem(title, description, dueDate, priority, todoId) {
     const todoItemContainer = document.createElement("div");
     todoItemContainer.classList.add("todo-item-container");
     todoItemMainDisplay.appendChild(todoItemContainer)
@@ -55,13 +51,13 @@ function displayTodoItem(title, description, dueDate, priority) {
     const checkboxForTodo = document.createElement("input");
     checkboxForTodo.type = "checkbox";
     checkboxForTodo.id = "something";
-    checkboxForTodo.name = "something";
+    checkboxForTodo.name = todoId;
     checkboxForTodo.value = "something";
     checkboxForTodo.classList.add("checkbox-for-todo");
     checkboxAndTitleDiv.appendChild(checkboxForTodo);
 
-    const labelForCheckboxForTodo = document.createElement("label");
-    labelForCheckboxForTodo.htmlFor = "something";
+    const labelForCheckboxForTodo = document.createElement("p");
+    // labelForCheckboxForTodo.htmlFor = todoId;
     labelForCheckboxForTodo.textContent = title;
     checkboxAndTitleDiv.append(labelForCheckboxForTodo);
 
@@ -100,9 +96,10 @@ function fetchTodoItemsFromLocalStorage(projectId = INBOXID) {
             let description = element[i].description;
             let dueDate = element[i].dueDate;
             let priority = element[i].priority;
+            let todoId = element[i].ID;
             console.log(dueDate, title)
 
-            displayTodoItem(title, description, dueDate, priority)
+            displayTodoItem(title, description, dueDate, priority, todoId)
         }
     });
 
