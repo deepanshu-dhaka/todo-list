@@ -134,6 +134,10 @@
   width: 18px;
 }
 
+.list-of-projects button {
+  padding-left: 10px;
+}
+
 .my-projects-heading {
   display: flex;
   justify-content: space-between;

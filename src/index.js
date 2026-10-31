@@ -3,6 +3,7 @@ import { createTodoItem } from "./createTodoItems.js";
 import { getFormData } from "./getFormData.js";
 import { storeFormData, consoleStoredData, setInitialInboxId, setInitialProjectTable } from "./localStorage.js";
 
+const listOfProjectsDiv = document.querySelector(".list-of-projects");
 const formRef = document.querySelector(".todo-item-collection-form");
 const formContainer = document.querySelector(".todo-item-form-container");
 const mainContent = document.querySelector(".main-content");
@@ -159,6 +160,8 @@ createNewProjectSubmitBtn.addEventListener("click", function () {
     }
     storeProjectNameInLocalStorage(currentProjectId, currentProjectName)
     createNewProjectForm.reset();
+    listOfProjectsDiv.textContent = "";
+    displayListOfProjectsOnSidebar();
 })
 
 function storeProjectNameInLocalStorage(currentProjectId, currentProjectName) {
@@ -173,3 +176,18 @@ function storeProjectNameInLocalStorage(currentProjectId, currentProjectName) {
     // store data as individual projectId and relevants todos
 }
 
+
+function displayListOfProjectsOnSidebar() {
+    let retrievedProjectTableArray = JSON.parse(localStorage.getItem("projectTable"));
+
+    retrievedProjectTableArray.forEach(element => {
+        console.log(element);
+
+        const buttonP = document.createElement("button");
+        buttonP.textContent = `# ${element}`;
+        listOfProjectsDiv.appendChild(buttonP);
+
+    });
+}
+
+displayListOfProjectsOnSidebar();
