@@ -155,4 +155,5 @@ createNewProjectSubmitBtn.addEventListener("click", function () {
         console.log(`${key}: ${value}`);
         arrOfValues.push(value)
     }
+    createNewProjectForm.reset();
 })
