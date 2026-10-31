@@ -1,7 +1,7 @@
 import "./styles.css";
 import { createTodoItem } from "./createTodoItems.js";
 import { getFormData } from "./getFormData.js";
-import { storeFormData, consoleStoredData, setInitialInboxId } from "./localStorage.js";
+import { storeFormData, consoleStoredData, setInitialInboxId, setInitialProjectTable } from "./localStorage.js";
 
 const formRef = document.querySelector(".todo-item-collection-form");
 const formContainer = document.querySelector(".todo-item-form-container");
@@ -15,6 +15,7 @@ let INBOXID = "";
 const inboxOption = document.querySelector(".inbox-option");
 
 INBOXID = setInitialInboxId(INBOXID);
+setInitialProjectTable();
 
 console.log(INBOXID)
 inboxOption.setAttribute("value", INBOXID);
@@ -150,10 +151,25 @@ const createNewProjectForm = document.querySelector(".create-new-project-form")
 const createNewProjectSubmitBtn = document.querySelector(".create-new-project-submit-btn");
 createNewProjectSubmitBtn.addEventListener("click", function () {
     const formData = new FormData(createNewProjectForm);
-    let arrOfValues = []
+    const currentProjectId = crypto.randomUUID();
+    let currentProjectName = ""
     for (const [key, value] of formData) {
-        console.log(`${key}: ${value}`);
-        arrOfValues.push(value)
+        currentProjectName = value;
+        console.log(`${currentProjectId}: ${value}`);
     }
+    storeProjectNameInLocalStorage(currentProjectId, currentProjectName)
     createNewProjectForm.reset();
 })
+
+function storeProjectNameInLocalStorage(currentProjectId, currentProjectName) {
+    // store data in projectTable
+    let retrievedProjectTableArray = JSON.parse(localStorage.getItem("projectTable"));
+
+    retrievedProjectTableArray.push(currentProjectName);
+    console.log("empty array", retrievedProjectTableArray)
+
+    localStorage.setItem("projectTable", JSON.stringify(retrievedProjectTableArray));
+
+    // store data as individual projectId and relevants todos
+}
+

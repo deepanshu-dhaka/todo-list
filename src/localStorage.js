@@ -36,4 +36,10 @@ function setInitialInboxId(INBOXID) {
     return INBOXID;
 }
 
-export { storeFormData, consoleStoredData, setInitialInboxId }
+function setInitialProjectTable() {
+    if (localStorage.getItem("projectTable") === null) {
+        localStorage.setItem("projectTable", JSON.stringify([]));
+    }
+}
+
+export { storeFormData, consoleStoredData, setInitialInboxId, setInitialProjectTable }
