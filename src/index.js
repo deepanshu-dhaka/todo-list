@@ -201,10 +201,12 @@ function displayListOfProjectsOnTodoFormCollection(currentProjectId) {
     let retrievedProjectTableArray = JSON.parse(localStorage.getItem("projectTable"));
 
     let retrievedInboxId = (localStorage.getItem("inboxId"))
-    const optionP = document.createElement("option");
-    optionP.textContent = "Inbox";
-    optionP.value = retrievedInboxId;
-    listOfProjectsOnTodoFormCollection.appendChild(optionP)
+    if (!document.querySelector(".inbox-option")) {
+        const optionP = document.createElement("option");
+        optionP.textContent = "Inbox";
+        optionP.value = retrievedInboxId;
+        listOfProjectsOnTodoFormCollection.appendChild(optionP)
+    }
 
     retrievedProjectTableArray.forEach(element => {
         let projectName = Object.keys(element)[0]
