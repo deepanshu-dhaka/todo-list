@@ -1,15 +1,22 @@
 function storeFormData(todoItem, INBOXID) {
+    const retrievedProjectTable = JSON.parse(localStorage.getItem("projectTable"));
 
     console.log("projectName:", todoItem.projectName);
-    console.log(INBOXID)
     if (todoItem.projectName === INBOXID) {
         let retrieved = JSON.parse(localStorage.getItem(INBOXID));
         retrieved.push({ [todoItem.ID]: todoItem })
-        console.log("retrieved", retrieved)
         localStorage.setItem(INBOXID, JSON.stringify(retrieved))
+        return;
 
     }
-    // localStorage.setItem(todoId, JSON.stringify(todoItem))
+    retrievedProjectTable.forEach(element => {
+        if (todoItem.projectName == Object.values(element)[0]) {
+            console.log("equal", Object.values(element)[0])
+            const retrievedProject = JSON.parse(localStorage.getItem(Object.values(element)[0]));
+            retrievedProject.push(todoItem);
+            localStorage.setItem(Object.values(element)[0], JSON.stringify(retrievedProject))
+        }
+    });
 
 }
 
