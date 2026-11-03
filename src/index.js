@@ -8,6 +8,7 @@ const listOfProjectsDiv = document.querySelector(".list-of-projects");
 const formRef = document.querySelector(".todo-item-collection-form");
 const formContainer = document.querySelector(".todo-item-form-container");
 const mainContent = document.querySelector(".main-content");
+const textAreaToEnterTodoItem = document.querySelector(".text-area-to-enter-todo-item");
 
 const todoItemMainDisplay = document.createElement("div");
 todoItemMainDisplay.classList.add("todo-item-main-display");
@@ -18,11 +19,8 @@ const inboxOption = document.querySelector(".inbox-option");
 
 INBOXID = setInitialInboxId(INBOXID);
 setInitialProjectTable();
-
-console.log(INBOXID)
 inboxOption.setAttribute("value", INBOXID);
 
-const textAreaToEnterTodoItem = document.querySelector(".text-area-to-enter-todo-item");
 
 const submitBtn = document.querySelector(".submitBtn")
 submitBtn.addEventListener("click", (event) => {
@@ -46,8 +44,33 @@ submitBtn.addEventListener("click", (event) => {
     storeFormData(todoItem, INBOXID);
     formRef.reset();
     todoItemMainDisplay.textContent = "";
-    fetchTodoItemsFromLocalStorage();
+    fetchTodoItemsForInboxFromLocalStorage();
 })
+
+function fetchTodoItemsForInboxFromLocalStorage(projectId = INBOXID) {
+    let inboxTodos = JSON.parse(localStorage.getItem(INBOXID))
+    //array of inbox todos [{todoId:{}}, {todoId:{}},...]
+    console.log(inboxTodos)
+
+    // element: {todoId:{title: "", dueDate: "",...}}
+    inboxTodos.forEach(element => {
+        // i => todoId
+        // element[i] => {title: "", dueDate: "",...}
+        for (const i in element) {
+            let title = element[i].title;
+            let description = element[i].description;
+            let dueDate = element[i].dueDate;
+            let priority = element[i].priority;
+            let todoId = element[i].ID;
+
+            displayTodoItem(title, description, dueDate, priority, todoId)
+        }
+    });
+
+}
+
+fetchTodoItemsForInboxFromLocalStorage();
+
 
 
 function displayTodoItem(title, description, dueDate, priority, todoId) {
@@ -91,32 +114,12 @@ function displayTodoItem(title, description, dueDate, priority, todoId) {
     dateDiv.appendChild(datePara)
 }
 
+const inboxAndUtilitySectionDiv = document.querySelector(".inbox-and-utility-section");
+inboxAndUtilitySectionDiv.addEventListener("click", () => {
+    todoItemMainDisplay.textContent = "";
+    fetchTodoItemsForInboxFromLocalStorage();
+})
 
-function fetchTodoItemsFromLocalStorage(projectId = INBOXID) {
-    let inboxTodos = JSON.parse(localStorage.getItem(INBOXID))
-    //array of inbox todos [{todoId:{}}, {todoId:{}},...]
-    console.log(inboxTodos)
-
-    // element: {todoId:{title: "", dueDate: "",...}}
-    inboxTodos.forEach(element => {
-        // i => todoId
-        // element[i] => {title: "", dueDate: "",...}
-        for (const i in element) {
-            console.log("element", element[i]);
-            let title = element[i].title;
-            let description = element[i].description;
-            let dueDate = element[i].dueDate;
-            let priority = element[i].priority;
-            let todoId = element[i].ID;
-            console.log(dueDate, title)
-
-            displayTodoItem(title, description, dueDate, priority, todoId)
-        }
-    });
-
-}
-
-fetchTodoItemsFromLocalStorage();
 
 
 
@@ -166,6 +169,8 @@ createNewProjectSubmitBtn.addEventListener("click", function () {
 
     displayListOfProjectsOnSidebar(currentProjectId);
     displayListOfProjectsOnTodoFormCollection(currentProjectId);
+    addEventListenerOnProjectListsOnSidebar();
+
 })
 
 function storeProjectNameInLocalStorage(currentProjectId, currentProjectName) {
@@ -192,6 +197,7 @@ function displayListOfProjectsOnSidebar(currentProjectId) {
         const buttonP = document.createElement("button");
         buttonP.textContent = `# ${projectName}`;
         buttonP.dataset.projectId = projectId;
+        buttonP.classList.add("project-name");
         listOfProjectsDiv.appendChild(buttonP);
 
     });
@@ -220,3 +226,38 @@ function displayListOfProjectsOnTodoFormCollection(currentProjectId) {
 }
 displayListOfProjectsOnTodoFormCollection();
 displayListOfProjectsOnSidebar();
+
+function addEventListenerOnProjectListsOnSidebar() {
+    const projectListsFromSidebar = document.querySelectorAll("button.project-name");
+
+    projectListsFromSidebar.forEach(project => {
+        project.addEventListener("click", fetchTodoItemsFromProjectOnSidebarBasedOnClick)
+    })
+}
+
+function fetchTodoItemsFromProjectOnSidebarBasedOnClick(event) {
+
+    // console.log("here", projectListsFromSidebar)
+    // projectListsFromSidebar.forEach(element => {
+    //     if (element.dataset.projectId === "94a44592-cb4f-4628-9463-67d98f9db050") {
+    //         console.log("true")
+
+    //     }
+    // });
+    const targetProjectId = event.target.dataset.projectId;
+    const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
+    console.log(targetProjectIdTodosArray)
+    todoItemMainDisplay.textContent = "";
+    targetProjectIdTodosArray.forEach(element => {
+        const title = element.title;
+        const description = element.description;
+        const dueDate = element.dueDate;
+        const priority = element.priority;
+        const todoId = element.ID;
+
+        displayTodoItem(title, description, dueDate, priority, todoId)
+    });
+    console.log("I have been clicked!!", event.target.dataset.projectId)
+}
+// fetchTodoItemsFromProjectOnSidebarBasedOnClick();
+addEventListenerOnProjectListsOnSidebar();
