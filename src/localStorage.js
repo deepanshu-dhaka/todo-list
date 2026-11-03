@@ -13,7 +13,7 @@ function storeFormData(todoItem, INBOXID) {
         if (todoItem.projectName == Object.values(element)[0]) {
             console.log("equal", Object.values(element)[0])
             const retrievedProject = JSON.parse(localStorage.getItem(Object.values(element)[0]));
-            retrievedProject.push(todoItem);
+            retrievedProject.push({ [todoItem.ID]: todoItem });
             localStorage.setItem(Object.values(element)[0], JSON.stringify(retrievedProject))
         }
     });

@@ -63,8 +63,9 @@ function fetchTodoItemsForInboxFromLocalStorage(projectId = INBOXID) {
             let dueDate = element[i].dueDate;
             let priority = element[i].priority;
             let todoId = element[i].ID;
+            let projectId = element[i].projectName;
 
-            displayTodoItem(title, description, dueDate, priority, todoId)
+            displayTodoItem(title, description, dueDate, priority, todoId, projectId)
         }
     });
 
@@ -74,7 +75,7 @@ fetchTodoItemsForInboxFromLocalStorage();
 
 
 
-function displayTodoItem(title, description, dueDate, priority, todoId) {
+function displayTodoItem(title, description, dueDate, priority, todoId, projectId) {
     const todoItemContainer = document.createElement("div");
     todoItemContainer.classList.add("todo-item-container");
     todoItemMainDisplay.appendChild(todoItemContainer)
@@ -128,6 +129,9 @@ function displayTodoItem(title, description, dueDate, priority, todoId) {
 
     const removeIconImg = document.createElement("img");
     removeIconImg.src = removeIcon;
+    removeIconImg.classList.add("remove-todo-item-icon")
+    removeIconImg.dataset.projectId = projectId;
+    removeIconImg.dataset.todoId = todoId;
     removeIconImg.style.height = "20px";
     removeIconImg.style.width = "20px";
     todoItemIconDiv.appendChild(removeIconImg)
@@ -139,6 +143,14 @@ inboxAndUtilitySectionDiv.addEventListener("click", () => {
     fetchTodoItemsForInboxFromLocalStorage();
 })
 
+const removeTodoItemIcon = document.querySelectorAll(".remove-todo-item-icon");
+removeTodoItemIcon.forEach(element => {
+
+});
+
+// function deleteTodoItemsFromInbox() {
+
+// }
 
 
 
@@ -260,13 +272,16 @@ function fetchTodoItemsFromProjectOnSidebarBasedOnClick(event) {
     console.log(targetProjectIdTodosArray)
     todoItemMainDisplay.textContent = "";
     targetProjectIdTodosArray.forEach(element => {
-        const title = element.title;
-        const description = element.description;
-        const dueDate = element.dueDate;
-        const priority = element.priority;
-        const todoId = element.ID;
+        for (const i in element) {
+            let title = element[i].title;
+            let description = element[i].description;
+            let dueDate = element[i].dueDate;
+            let priority = element[i].priority;
+            let todoId = element[i].ID;
+            let projectId = element[i].projectName;
 
-        displayTodoItem(title, description, dueDate, priority, todoId)
+            displayTodoItem(title, description, dueDate, priority, todoId, projectId)
+        }
     });
     console.log("I have been clicked!!", event.target.dataset.projectId)
 }
