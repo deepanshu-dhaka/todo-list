@@ -2,6 +2,7 @@ import "./styles.css";
 import { createTodoItem } from "./createTodoItems.js";
 import { getFormData } from "./getFormData.js";
 import { storeFormData, consoleStoredData, setInitialInboxId, setInitialProjectTable } from "./localStorage.js";
+import removeIcon from "./removeIcon.png";
 
 const listOfProjectsOnTodoFormCollection = document.querySelector(".list-of-projects-on-todo-form-collection");
 const listOfProjectsDiv = document.querySelector(".list-of-projects");
@@ -78,9 +79,15 @@ function displayTodoItem(title, description, dueDate, priority, todoId) {
     todoItemContainer.classList.add("todo-item-container");
     todoItemMainDisplay.appendChild(todoItemContainer)
 
+    const todoItemTextDiv = document.createElement("div");
+    todoItemTextDiv.classList.add("todo-item-text-div")
+    todoItemContainer.appendChild(todoItemTextDiv);
+
+
+
     const checkboxAndTitleDiv = document.createElement("div");
     checkboxAndTitleDiv.classList.add("checkbox-and-title-div");
-    todoItemContainer.appendChild(checkboxAndTitleDiv);
+    todoItemTextDiv.appendChild(checkboxAndTitleDiv);
 
     const checkboxForTodo = document.createElement("input");
     checkboxForTodo.type = "checkbox";
@@ -95,9 +102,11 @@ function displayTodoItem(title, description, dueDate, priority, todoId) {
     labelForCheckboxForTodo.textContent = title;
     checkboxAndTitleDiv.append(labelForCheckboxForTodo);
 
+
+
     const descriptionDiv = document.createElement("div");
     descriptionDiv.classList.add("description-div");
-    todoItemContainer.appendChild(descriptionDiv);
+    todoItemTextDiv.appendChild(descriptionDiv);
 
     const descriptionPara = document.createElement("p");
     descriptionPara.classList.add("description-para");
@@ -106,12 +115,22 @@ function displayTodoItem(title, description, dueDate, priority, todoId) {
 
     const dateDiv = document.createElement("div");
     dateDiv.classList.add("date-div");
-    todoItemContainer.appendChild(dateDiv);
+    todoItemTextDiv.appendChild(dateDiv);
 
     const datePara = document.createElement("p");
     datePara.classList.add("date-para");
     datePara.textContent = dueDate;
-    dateDiv.appendChild(datePara)
+    dateDiv.appendChild(datePara);
+
+    const todoItemIconDiv = document.createElement("div");
+    todoItemIconDiv.classList.add("todo-item-icon-div");
+    todoItemContainer.appendChild(todoItemIconDiv);
+
+    const removeIconImg = document.createElement("img");
+    removeIconImg.src = removeIcon;
+    removeIconImg.style.height = "20px";
+    removeIconImg.style.width = "20px";
+    todoItemIconDiv.appendChild(removeIconImg)
 }
 
 const inboxAndUtilitySectionDiv = document.querySelector(".inbox-and-utility-section");

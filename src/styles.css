@@ -218,6 +218,9 @@
   width: 53rem;
   padding: 10px 0px;
   border-bottom: 0.6px solid rgb(128, 128, 128, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .todo-item-container:last-child {
