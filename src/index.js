@@ -236,14 +236,6 @@ function addEventListenerOnProjectListsOnSidebar() {
 }
 
 function fetchTodoItemsFromProjectOnSidebarBasedOnClick(event) {
-
-    // console.log("here", projectListsFromSidebar)
-    // projectListsFromSidebar.forEach(element => {
-    //     if (element.dataset.projectId === "94a44592-cb4f-4628-9463-67d98f9db050") {
-    //         console.log("true")
-
-    //     }
-    // });
     const targetProjectId = event.target.dataset.projectId;
     const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
     console.log(targetProjectIdTodosArray)
@@ -259,5 +251,4 @@ function fetchTodoItemsFromProjectOnSidebarBasedOnClick(event) {
     });
     console.log("I have been clicked!!", event.target.dataset.projectId)
 }
-// fetchTodoItemsFromProjectOnSidebarBasedOnClick();
 addEventListenerOnProjectListsOnSidebar();
