@@ -4,6 +4,7 @@ import { getFormData } from "./getFormData.js";
 import { storeFormData, consoleStoredData, setInitialInboxId, setInitialProjectTable } from "./localStorage.js";
 import removeIcon from "./removeIcon.png";
 
+
 const listOfProjectsOnTodoFormCollection = document.querySelector(".list-of-projects-on-todo-form-collection");
 const listOfProjectsDiv = document.querySelector(".list-of-projects");
 const formRef = document.querySelector(".todo-item-collection-form");
@@ -67,6 +68,10 @@ function fetchTodoItemsForInboxFromLocalStorage(projectId = INBOXID) {
 
             displayTodoItem(title, description, dueDate, priority, todoId, projectId)
         }
+    });
+    const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
+    removeTodoItemIcons.forEach(singleRemoveIcon => {
+        singleRemoveIcon.addEventListener("click", deleteTodoItems)
     });
 
 }
@@ -135,6 +140,8 @@ function displayTodoItem(title, description, dueDate, priority, todoId, projectI
     removeIconImg.style.height = "20px";
     removeIconImg.style.width = "20px";
     todoItemIconDiv.appendChild(removeIconImg)
+
+
 }
 
 const inboxAndUtilitySectionDiv = document.querySelector(".inbox-and-utility-section");
@@ -143,14 +150,35 @@ inboxAndUtilitySectionDiv.addEventListener("click", () => {
     fetchTodoItemsForInboxFromLocalStorage();
 })
 
-const removeTodoItemIcon = document.querySelectorAll(".remove-todo-item-icon");
-removeTodoItemIcon.forEach(element => {
-
+const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
+removeTodoItemIcons.forEach(singleRemoveIcon => {
+    singleRemoveIcon.addEventListener("click", deleteTodoItems)
 });
 
-// function deleteTodoItemsFromInbox() {
+function deleteTodoItems(event) {
+    let targetProject = JSON.parse(localStorage.getItem(event.target.dataset.projectId));
+    console.log(targetProject);
+    targetProject.forEach(element => {
+        if (event.target.dataset.todoId === Object.keys(element)[0]) {
+            console.log("true", Object.keys(element)[0])
+            console.log(targetProject.indexOf(element))
+            let target = targetProject.indexOf(element);
+            targetProject.splice(target, 1)
+            localStorage.setItem(event.target.dataset.projectId, JSON.stringify(targetProject))
+            // fetchTodoItemsForInboxFromLocalStorage();
+            todoItemMainDisplay.textContent = "";
+            if (event.target.dataset.projectId === INBOXID) {
+                fetchTodoItemsForInboxFromLocalStorage();
+            }
+            else {
+                fetchTodoItemsFromProjectOnSidebarAfterDeletion(event)
+            }
+            // window.location.reload();
 
-// }
+        }
+    });
+
+}
 
 
 
@@ -266,7 +294,30 @@ function addEventListenerOnProjectListsOnSidebar() {
     })
 }
 
+function fetchTodoItemsFromProjectOnSidebarAfterDeletion(event) {
+    const targetProjectId = event.target.dataset.projectId;
+    const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
+    todoItemMainDisplay.textContent = "";
+    targetProjectIdTodosArray.forEach(element => {
+        for (const i in element) {
+            let title = element[i].title;
+            let description = element[i].description;
+            let dueDate = element[i].dueDate;
+            let priority = element[i].priority;
+            let todoId = element[i].ID;
+            let projectId = element[i].projectName;
+
+            displayTodoItem(title, description, dueDate, priority, todoId, projectId)
+        }
+    });
+    const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
+    removeTodoItemIcons.forEach(singleRemoveIcon => {
+        singleRemoveIcon.addEventListener("click", deleteTodoItems)
+    });
+}
+
 function fetchTodoItemsFromProjectOnSidebarBasedOnClick(event) {
+
     const targetProjectId = event.target.dataset.projectId;
     const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
     console.log(targetProjectIdTodosArray)
@@ -283,6 +334,12 @@ function fetchTodoItemsFromProjectOnSidebarBasedOnClick(event) {
             displayTodoItem(title, description, dueDate, priority, todoId, projectId)
         }
     });
-    console.log("I have been clicked!!", event.target.dataset.projectId)
+    const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
+    removeTodoItemIcons.forEach(singleRemoveIcon => {
+        singleRemoveIcon.addEventListener("click", deleteTodoItems)
+    });
+
+
+    // console.log("I have been clicked!!", event.target.dataset.projectId)
 }
 addEventListenerOnProjectListsOnSidebar();
