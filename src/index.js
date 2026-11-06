@@ -319,6 +319,8 @@ function displayListOfProjectsOnSidebar() {
 
         removeIconForProjects.addEventListener("click", removeProject)
 
+
+
     });
 }
 
@@ -335,6 +337,11 @@ function removeProject(event) {
 
     listOfProjectsDiv.textContent = "";
     displayListOfProjectsOnSidebar()
+    const projectListsFromSidebar = document.querySelectorAll("button.project-name");
+
+    projectListsFromSidebar.forEach(project => {
+        project.addEventListener("click", fetchTodoItemsFromProjectOnSidebarBasedOnClick)
+    })
 }
 
 function displayListOfProjectsOnTodoFormCollection(currentProjectId) {
@@ -516,25 +523,37 @@ function updateDisplayAfterEditFormSubmission(event) {
     const projectName = arrOfFormValues[2];
     const dueDate = arrOfFormValues[3];
     const priority = arrOfFormValues[4];
+    const todoItem = createTodoItem(title, description, dueDate, priority, projectName)
 
     console.log(event.target.dataset.projectId)
-    let targetProject = JSON.parse(localStorage.getItem(event.target.dataset.projectId));
+    let NewtargetProject = JSON.parse(localStorage.getItem(projectName));
     // console.log("heee", targetProject)
-    targetProject.forEach(todoItem => {
-        if (event.target.dataset.todoId === Object.keys(todoItem)[0]) {
-            console.log(Object.values(todoItem)[0].title)
-            Object.values(todoItem)[0].title = title;
-            Object.values(todoItem)[0].description = description;
-            Object.values(todoItem)[0].projectName = projectName;
-            Object.values(todoItem)[0].dueDate = dueDate;
-            Object.values(todoItem)[0].priority = priority;
-        }
-        console.log(todoItem)
-    });
-    console.log(targetProject);
-    localStorage.setItem(event.target.dataset.projectId, JSON.stringify(targetProject))
+    if (projectName != event.target.dataset.projectId) {
+        let OtargetProject = JSON.parse(localStorage.getItem(event.target.dataset.projectId));
+        OtargetProject.forEach((todoItem, index) => {
+            if (event.target.dataset.todoId === Object.keys(todoItem)[0]) {
+                OtargetProject.splice(index, 1)
+            }
+            // console.log(todoItem)
+        });
+        localStorage.setItem(event.target.dataset.projectId, JSON.stringify(OtargetProject))
+    }
+    // NewtargetProject.forEach(todoItem => {
+    //     if (event.target.dataset.todoId === Object.keys(todoItem)[0]) {
+    //         console.log(Object.values(todoItem)[0].title)
+    //         Object.values(todoItem)[0].title = title;
+    //         Object.values(todoItem)[0].description = description;
+    //         Object.values(todoItem)[0].projectName = projectName;
+    //         Object.values(todoItem)[0].dueDate = dueDate;
+    //         Object.values(todoItem)[0].priority = priority;
+    //     }
+    //     console.log(todoItem)
+    // });
+    // console.log(targetProject);
+    NewtargetProject.push({ [todoItem.ID]: todoItem })
+    localStorage.setItem(projectName, JSON.stringify(NewtargetProject))
 
     todoItemMainDisplay.textContent = "";
-    fetchTodoItemsForInboxFromLocalStorage(event.target.dataset.projectId);
+    fetchTodoItemsForInboxFromLocalStorage(projectName);
 }
 
