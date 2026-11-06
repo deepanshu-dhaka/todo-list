@@ -20,10 +20,12 @@ const formRef = document.querySelector(".todo-item-collection-form");
 const formContainer = document.querySelector(".todo-item-form-container");
 const mainContent = document.querySelector(".main-content");
 const textAreaToEnterTodoItem = document.querySelector(".text-area-to-enter-todo-item");
+const projectNameAsHeading = document.querySelector(".project-name-as-heading");
 
 const todoItemMainDisplay = document.createElement("div");
 todoItemMainDisplay.classList.add("todo-item-main-display");
-mainContent.insertAdjacentElement("afterbegin", todoItemMainDisplay);
+projectNameAsHeading.insertAdjacentElement("afterend", todoItemMainDisplay);
+
 
 let INBOXID = "";
 const inboxOption = document.querySelector(".inbox-option");
@@ -55,11 +57,29 @@ submitBtn.addEventListener("click", (event) => {
     storeFormData(todoItem, INBOXID);
     formRef.reset();
     todoItemMainDisplay.textContent = "";
-    fetchTodoItemsForInboxFromLocalStorage();
+    fetchTodoItemsForInboxFromLocalStorage(projectName);
 })
 
-function fetchTodoItemsForInboxFromLocalStorage(projectId = INBOXID) {
-    let inboxTodos = JSON.parse(localStorage.getItem(INBOXID))
+function fetchTodoItemsForInboxFromLocalStorage(projectId) {
+    console.log(projectId)
+
+    const retrievedProjectTable = JSON.parse(localStorage.getItem("projectTable"));
+    retrievedProjectTable.forEach(eachProjectRef => {
+        if (Object.values(eachProjectRef)[0] == projectId) {
+            console.log(Object.keys(eachProjectRef))
+
+            projectNameAsHeading.textContent = `${Object.keys(eachProjectRef)}`;
+
+
+        }
+    });
+
+
+    if (projectId === INBOXID) {
+        projectNameAsHeading.textContent = 'Inbox';
+        projectNameAsHeading.style.color = "white"
+    }
+    let inboxTodos = JSON.parse(localStorage.getItem(projectId))
     //array of inbox todos [{todoId:{}}, {todoId:{}},...]
     console.log(inboxTodos)
 
@@ -78,6 +98,7 @@ function fetchTodoItemsForInboxFromLocalStorage(projectId = INBOXID) {
             displayTodoItem(title, description, dueDate, priority, todoId, projectId)
         }
     });
+
     const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
     removeTodoItemIcons.forEach(singleRemoveIcon => {
         singleRemoveIcon.addEventListener("click", deleteTodoItems)
@@ -90,11 +111,12 @@ function fetchTodoItemsForInboxFromLocalStorage(projectId = INBOXID) {
 
 }
 
-fetchTodoItemsForInboxFromLocalStorage();
+fetchTodoItemsForInboxFromLocalStorage(INBOXID);
 
 
 
 function displayTodoItem(title, description, dueDate, priority, todoId, projectId) {
+
     const todoItemContainer = document.createElement("div");
     todoItemContainer.classList.add("todo-item-container");
     todoItemMainDisplay.appendChild(todoItemContainer)
@@ -169,7 +191,7 @@ function displayTodoItem(title, description, dueDate, priority, todoId, projectI
 const inboxAndUtilitySectionDiv = document.querySelector(".inbox-and-utility-section");
 inboxAndUtilitySectionDiv.addEventListener("click", () => {
     todoItemMainDisplay.textContent = "";
-    fetchTodoItemsForInboxFromLocalStorage();
+    fetchTodoItemsForInboxFromLocalStorage(INBOXID);
 })
 
 const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
@@ -190,7 +212,7 @@ function deleteTodoItems(event) {
             // fetchTodoItemsForInboxFromLocalStorage();
             todoItemMainDisplay.textContent = "";
             if (event.target.dataset.projectId === INBOXID) {
-                fetchTodoItemsForInboxFromLocalStorage();
+                fetchTodoItemsForInboxFromLocalStorage(INBOXID);
             }
             else {
                 fetchTodoItemsFromProjectOnSidebarAfterDeletion(event)
@@ -321,61 +343,64 @@ function addEventListenerOnProjectListsOnSidebar() {
 
 function fetchTodoItemsFromProjectOnSidebarAfterDeletion(event) {
     const targetProjectId = event.target.dataset.projectId;
-    const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
-    todoItemMainDisplay.textContent = "";
-    targetProjectIdTodosArray.forEach(element => {
-        for (const i in element) {
-            let title = element[i].title;
-            let description = element[i].description;
-            let dueDate = element[i].dueDate;
-            let priority = element[i].priority;
-            let todoId = element[i].ID;
-            let projectId = element[i].projectName;
+    // const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
+    // todoItemMainDisplay.textContent = "";
+    // targetProjectIdTodosArray.forEach(element => {
+    //     for (const i in element) {
+    //         let title = element[i].title;
+    //         let description = element[i].description;
+    //         let dueDate = element[i].dueDate;
+    //         let priority = element[i].priority;
+    //         let todoId = element[i].ID;
+    //         let projectId = element[i].projectName;
 
-            displayTodoItem(title, description, dueDate, priority, todoId, projectId)
-        }
-    });
-    const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
-    removeTodoItemIcons.forEach(singleRemoveIcon => {
-        singleRemoveIcon.addEventListener("click", deleteTodoItems)
-    });
+    //         displayTodoItem(title, description, dueDate, priority, todoId, projectId)
+    //     }
+    // });
+    // const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
+    // removeTodoItemIcons.forEach(singleRemoveIcon => {
+    //     singleRemoveIcon.addEventListener("click", deleteTodoItems)
+    // });
 
-    const editTodoItemIcon = document.querySelectorAll(".edit-todo-item-icon")
-    editTodoItemIcon.forEach(singelEditIcon => {
-        singelEditIcon.addEventListener("click", displayEditTodoItemForm)
-    });
+    // const editTodoItemIcon = document.querySelectorAll(".edit-todo-item-icon")
+    // editTodoItemIcon.forEach(singelEditIcon => {
+    //     singelEditIcon.addEventListener("click", displayEditTodoItemForm)
+    // });
+    fetchTodoItemsForInboxFromLocalStorage(targetProjectId);
 }
 
 function fetchTodoItemsFromProjectOnSidebarBasedOnClick(event) {
 
     const targetProjectId = event.target.dataset.projectId;
-    const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
-    console.log(targetProjectIdTodosArray)
-    todoItemMainDisplay.textContent = "";
-    targetProjectIdTodosArray.forEach(element => {
-        for (const i in element) {
-            let title = element[i].title;
-            let description = element[i].description;
-            let dueDate = element[i].dueDate;
-            let priority = element[i].priority;
-            let todoId = element[i].ID;
-            let projectId = element[i].projectName;
+    // const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
+    // console.log(targetProjectIdTodosArray)
+    // todoItemMainDisplay.textContent = "";
+    // targetProjectIdTodosArray.forEach(element => {
+    //     for (const i in element) {
+    //         let title = element[i].title;
+    //         let description = element[i].description;
+    //         let dueDate = element[i].dueDate;
+    //         let priority = element[i].priority;
+    //         let todoId = element[i].ID;
+    //         let projectId = element[i].projectName;
 
-            displayTodoItem(title, description, dueDate, priority, todoId, projectId)
-        }
-    });
-    const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
-    removeTodoItemIcons.forEach(singleRemoveIcon => {
-        singleRemoveIcon.addEventListener("click", deleteTodoItems)
-    });
+    //         displayTodoItem(title, description, dueDate, priority, todoId, projectId)
+    //     }
+    // });
+    // const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
+    // removeTodoItemIcons.forEach(singleRemoveIcon => {
+    //     singleRemoveIcon.addEventListener("click", deleteTodoItems)
+    // });
 
-    const editTodoItemIcon = document.querySelectorAll(".edit-todo-item-icon")
-    editTodoItemIcon.forEach(singelEditIcon => {
-        singelEditIcon.addEventListener("click", displayEditTodoItemForm)
-    });
+    // const editTodoItemIcon = document.querySelectorAll(".edit-todo-item-icon")
+    // editTodoItemIcon.forEach(singelEditIcon => {
+    //     singelEditIcon.addEventListener("click", displayEditTodoItemForm)
+    // });
 
 
     // console.log("I have been clicked!!", event.target.dataset.projectId)
+    todoItemMainDisplay.textContent = "";
+    fetchTodoItemsForInboxFromLocalStorage(targetProjectId)
 }
 addEventListenerOnProjectListsOnSidebar();
 
@@ -482,5 +507,5 @@ function updateDisplayAfterEditFormSubmission(event) {
     localStorage.setItem(event.target.dataset.projectId, JSON.stringify(targetProject))
 
     todoItemMainDisplay.textContent = "";
-    fetchTodoItemsForInboxFromLocalStorage();
+    fetchTodoItemsForInboxFromLocalStorage(event.target.dataset.projectId);
 }
