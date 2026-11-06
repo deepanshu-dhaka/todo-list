@@ -247,3 +247,12 @@
 .date-para {
   font-size: 12px;
 }
+
+.todo-item-icon-div {
+  display: flex;
+  gap: 10px;
+}
+
+.todo-item-icon-div img {
+  cursor: pointer;
+}

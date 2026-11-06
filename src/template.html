@@ -60,22 +60,86 @@
               </svg>
             </span>
           </button>
-          <div class="list-of-projects">
-          </div>
+          <div class="list-of-projects"></div>
         </div>
       </div>
       <div class="main-content">
-
         <div class="todo-item-form-container">
           <dialog id="create-new-project-dialog">
             <form class="create-new-project-form">
               <label for="project-name">Project Name</label>
-            <input type="text" name="project-name" id="project-name" />
-            <button class="create-new-project-submit-btn" formmethod="dialog">Submit</button>
-            <button type="button" commandfor="create-new-project-dialog" command="close">Close</button>
-
-          </dialog>
+              <input type="text" name="project-name" id="project-name" />
+              <button class="create-new-project-submit-btn" formmethod="dialog">
+                Submit
+              </button>
+              <button
+                type="button"
+                commandfor="create-new-project-dialog"
+                command="close"
+              >
+                Close
+              </button>
             </form>
+          </dialog>
+
+          <dialog id="todo-item-edit-dialog">
+            <form class="todo-item-edit-form">
+              <label for="title">Title</label>
+              <input
+                class="todo-item-title-on-edit-form"
+                type="text"
+                name="title"
+                id="title"
+              />
+
+              <label for="description">Description</label>
+              <input
+                class="todo-item-desciption-on-edit-form"
+                type="text"
+                name="description"
+                id="description"
+              />
+
+              <label for="project-list">Project</label>
+              <select
+                class="project-list-on-edit-form"
+                name="project-list"
+                id="project-list"
+              ></select>
+
+              <label for="date">Date</label>
+              <input
+                type="date"
+                class="date-on-edit-form"
+                name="date"
+                id="date"
+              />
+
+              <label for="priority-list">Priority</label>
+              <select
+                class="priority-list-on-edit-form"
+                name="priority-list"
+                id="priority-list"
+              >
+                <option value="p1">p1</option>
+                <option value="p2">p2</option>
+                <option value="p3">p3</option>
+              </select>
+
+              <button class="edit-form-submit-btn" formmethod="dialog">
+                Submit
+              </button>
+
+              <button
+                type="button"
+                commandfor="todo-item-edit-dialog"
+                command="close"
+              >
+                Close
+              </button>
+            </form>
+          </dialog>
+
           <form class="todo-item-collection-form">
             <div class="first-half-of-form">
               <input
@@ -90,17 +154,18 @@
             </div>
             <div class="second-half-of-form">
               <div>
-                <select name="project" id="project" class="list-of-projects-on-todo-form-collection">
+                <select
+                  name="project"
+                  id="project"
+                  class="list-of-projects-on-todo-form-collection"
+                >
                   <option class="inbox-option" value="inbox">Inbox</option>
-                  
-                  
                 </select>
                 <input
                   class="date"
                   type="date"
                   id="todo-item-due-date"
                   name="todo-item-due-date"
-                  
                 />
                 <select name="priority" id="priority">
                   <option checked value="priority">priority</option>
