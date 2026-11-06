@@ -108,6 +108,12 @@
   background-color: rgb(61, 56, 56);
 }
 
+.project-container-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .inbox-and-utility-section button svg {
   height: 22px;
   width: 22px;

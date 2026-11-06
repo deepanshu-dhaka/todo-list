@@ -293,20 +293,48 @@ function storeProjectNameInLocalStorage(currentProjectId, currentProjectName) {
 }
 
 
-function displayListOfProjectsOnSidebar(currentProjectId) {
+function displayListOfProjectsOnSidebar() {
     let retrievedProjectTableArray = JSON.parse(localStorage.getItem("projectTable"));
 
     retrievedProjectTableArray.forEach(element => {
         console.log(element);
+        const projectContainerDiv = document.createElement("div");
+        projectContainerDiv.classList.add("project-container-div")
+        listOfProjectsDiv.appendChild(projectContainerDiv)
+
         let projectName = Object.keys(element)[0]
         let projectId = element[projectName]
         const buttonP = document.createElement("button");
         buttonP.textContent = `# ${projectName}`;
         buttonP.dataset.projectId = projectId;
         buttonP.classList.add("project-name");
-        listOfProjectsDiv.appendChild(buttonP);
+        projectContainerDiv.appendChild(buttonP);
+
+        const removeIconForProjects = document.createElement("img");
+        removeIconForProjects.src = removeIcon;
+        removeIconForProjects.style.height = "18px";
+        removeIconForProjects.style.width = "18px"
+        removeIconForProjects.dataset.projectId = projectId;
+        projectContainerDiv.appendChild(removeIconForProjects);
+
+        removeIconForProjects.addEventListener("click", removeProject)
 
     });
+}
+
+function removeProject(event) {
+    console.log(event.target.dataset.projectId)
+    localStorage.removeItem(event.target.dataset.projectId)
+    let retrievedProjectTableArray = JSON.parse(localStorage.getItem("projectTable"));
+    retrievedProjectTableArray.forEach((element, index) => {
+        if (event.target.dataset.projectId == Object.values(element)[0]) {
+            retrievedProjectTableArray.splice(index, 1)
+        }
+    });
+    localStorage.setItem("projectTable", JSON.stringify(retrievedProjectTableArray))
+
+    listOfProjectsDiv.textContent = "";
+    displayListOfProjectsOnSidebar()
 }
 
 function displayListOfProjectsOnTodoFormCollection(currentProjectId) {
@@ -509,3 +537,4 @@ function updateDisplayAfterEditFormSubmission(event) {
     todoItemMainDisplay.textContent = "";
     fetchTodoItemsForInboxFromLocalStorage(event.target.dataset.projectId);
 }
+
