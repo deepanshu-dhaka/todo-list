@@ -81,7 +81,6 @@ function fetchTodoItemsForInboxFromLocalStorage(projectId) {
     }
     let inboxTodos = JSON.parse(localStorage.getItem(projectId))
     //array of inbox todos [{todoId:{}}, {todoId:{}},...]
-    console.log(inboxTodos)
 
     // element: {todoId:{title: "", dueDate: "",...}}
     inboxTodos.forEach(element => {
@@ -145,7 +144,6 @@ function displayTodoItem(title, description, dueDate, priority, todoId, projectI
     checkboxAndTitleDiv.appendChild(checkboxForTodo);
 
     const labelForCheckboxForTodo = document.createElement("p");
-    // labelForCheckboxForTodo.htmlFor = todoId;
     labelForCheckboxForTodo.textContent = title;
     checkboxAndTitleDiv.append(labelForCheckboxForTodo);
 
@@ -206,15 +204,11 @@ removeTodoItemIcons.forEach(singleRemoveIcon => {
 
 function deleteTodoItems(event) {
     let targetProject = JSON.parse(localStorage.getItem(event.target.dataset.projectId));
-    console.log(targetProject);
     targetProject.forEach(element => {
         if (event.target.dataset.todoId === Object.keys(element)[0]) {
-            console.log("true", Object.keys(element)[0])
-            console.log(targetProject.indexOf(element))
             let target = targetProject.indexOf(element);
             targetProject.splice(target, 1)
             localStorage.setItem(event.target.dataset.projectId, JSON.stringify(targetProject))
-            // fetchTodoItemsForInboxFromLocalStorage();
             todoItemMainDisplay.textContent = "";
             if (event.target.dataset.projectId === INBOXID) {
                 fetchTodoItemsForInboxFromLocalStorage(INBOXID);
@@ -222,7 +216,6 @@ function deleteTodoItems(event) {
             else {
                 fetchTodoItemsFromProjectOnSidebarAfterDeletion(event)
             }
-            // window.location.reload();
 
         }
     });
@@ -235,7 +228,6 @@ let isDescriptionFieldAlreadyOnTheScreen = false;
 const descriptionBtn = document.querySelector(".description-btn");
 descriptionBtn.addEventListener("click", (event) => {
     if (isDescriptionFieldAlreadyOnTheScreen == true) {
-        console.log("hello")
         return;
     }
     const description = document.createElement("input");
@@ -254,7 +246,6 @@ const addProjectIcon = document.querySelector(".add-project-icon");
 const createNewProjectDialog = document.querySelector("#create-new-project-dialog")
 
 addProjectIcon.addEventListener("click", function () {
-    console.log("clicked");
     createNewProjectDialog.showModal();
 
 })
@@ -268,7 +259,6 @@ createNewProjectSubmitBtn.addEventListener("click", function () {
     let currentProjectName = ""
     for (const [key, value] of formData) {
         currentProjectName = value;
-        console.log(`${currentProjectId}: ${value}`);
     }
     storeProjectNameInLocalStorage(currentProjectId, currentProjectName)
     createNewProjectForm.reset();
@@ -289,7 +279,6 @@ function storeProjectNameInLocalStorage(currentProjectId, currentProjectName) {
     let retrievedProjectTableArray = JSON.parse(localStorage.getItem("projectTable"));
 
     retrievedProjectTableArray.push({ [currentProjectName]: currentProjectId });
-    console.log("empty array", retrievedProjectTableArray)
 
     localStorage.setItem("projectTable", JSON.stringify(retrievedProjectTableArray));
 
@@ -302,7 +291,6 @@ function displayListOfProjectsOnSidebar() {
     let retrievedProjectTableArray = JSON.parse(localStorage.getItem("projectTable"));
 
     retrievedProjectTableArray.forEach(element => {
-        console.log(element);
         const projectContainerDiv = document.createElement("div");
         projectContainerDiv.classList.add("project-container-div")
         listOfProjectsDiv.appendChild(projectContainerDiv)
@@ -330,7 +318,6 @@ function displayListOfProjectsOnSidebar() {
 }
 
 function removeProject(event) {
-    console.log(event.target.dataset.projectId)
     localStorage.removeItem(event.target.dataset.projectId)
     let retrievedProjectTableArray = JSON.parse(localStorage.getItem("projectTable"));
     retrievedProjectTableArray.forEach((element, index) => {
@@ -383,62 +370,11 @@ function addEventListenerOnProjectListsOnSidebar() {
 
 function fetchTodoItemsFromProjectOnSidebarAfterDeletion(event) {
     const targetProjectId = event.target.dataset.projectId;
-    // const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
-    // todoItemMainDisplay.textContent = "";
-    // targetProjectIdTodosArray.forEach(element => {
-    //     for (const i in element) {
-    //         let title = element[i].title;
-    //         let description = element[i].description;
-    //         let dueDate = element[i].dueDate;
-    //         let priority = element[i].priority;
-    //         let todoId = element[i].ID;
-    //         let projectId = element[i].projectName;
-
-    //         displayTodoItem(title, description, dueDate, priority, todoId, projectId)
-    //     }
-    // });
-    // const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
-    // removeTodoItemIcons.forEach(singleRemoveIcon => {
-    //     singleRemoveIcon.addEventListener("click", deleteTodoItems)
-    // });
-
-    // const editTodoItemIcon = document.querySelectorAll(".edit-todo-item-icon")
-    // editTodoItemIcon.forEach(singelEditIcon => {
-    //     singelEditIcon.addEventListener("click", displayEditTodoItemForm)
-    // });
     fetchTodoItemsForInboxFromLocalStorage(targetProjectId);
 }
 
 function fetchTodoItemsFromProjectOnSidebarBasedOnClick(event) {
-
     const targetProjectId = event.target.dataset.projectId;
-    // const targetProjectIdTodosArray = JSON.parse(localStorage.getItem(targetProjectId));
-    // console.log(targetProjectIdTodosArray)
-    // todoItemMainDisplay.textContent = "";
-    // targetProjectIdTodosArray.forEach(element => {
-    //     for (const i in element) {
-    //         let title = element[i].title;
-    //         let description = element[i].description;
-    //         let dueDate = element[i].dueDate;
-    //         let priority = element[i].priority;
-    //         let todoId = element[i].ID;
-    //         let projectId = element[i].projectName;
-
-    //         displayTodoItem(title, description, dueDate, priority, todoId, projectId)
-    //     }
-    // });
-    // const removeTodoItemIcons = document.querySelectorAll(".remove-todo-item-icon");
-    // removeTodoItemIcons.forEach(singleRemoveIcon => {
-    //     singleRemoveIcon.addEventListener("click", deleteTodoItems)
-    // });
-
-    // const editTodoItemIcon = document.querySelectorAll(".edit-todo-item-icon")
-    // editTodoItemIcon.forEach(singelEditIcon => {
-    //     singelEditIcon.addEventListener("click", displayEditTodoItemForm)
-    // });
-
-
-    // console.log("I have been clicked!!", event.target.dataset.projectId)
     todoItemMainDisplay.textContent = "";
     fetchTodoItemsForInboxFromLocalStorage(targetProjectId)
 }
@@ -451,7 +387,6 @@ editTodoItemIcon.forEach(singelEditIcon => {
 });
 
 function displayEditTodoItemForm(event) {
-    console.log("edit icon clicked")
     displayTodoItemInfoOnEditForm(event);
     editTodoItemDialog.showModal();
     editFormSubmitBtn.dataset.projectId = event.target.dataset.projectId;
@@ -484,12 +419,9 @@ addProjectListOptionsOnEditForm();
 
 function displayTodoItemInfoOnEditForm(event) {
     let targetProject = JSON.parse(localStorage.getItem(event.target.dataset.projectId));
-    // console.log(targetProject);
 
-    // console.log(event.target.dataset.todoId);
     targetProject.forEach(element => {
         if (event.target.dataset.todoId === Object.keys(element)[0]) {
-            // console.log(element[event.target.dataset.todoId])
             let targetTodoItem = element[event.target.dataset.todoId];
             console.log(listOfProjectsOnTodoFormCollection)
             todoItemTitleOnEditForm.value = `${targetTodoItem.title}`
@@ -503,7 +435,6 @@ function displayTodoItemInfoOnEditForm(event) {
             const options = document.querySelectorAll(".project-list-on-edit-form option")
             options.forEach(option => {
                 if (option.value == event.target.dataset.projectId) {
-                    // console.log(option);
                     option.selected = "selected";
                 }
             });
@@ -530,31 +461,16 @@ function updateDisplayAfterEditFormSubmission(event) {
     const priority = arrOfFormValues[4];
     const todoItem = createTodoItem(title, description, dueDate, priority, projectName)
 
-    console.log(event.target.dataset.projectId)
     let NewtargetProject = JSON.parse(localStorage.getItem(projectName));
-    // console.log("heee", targetProject)
     if (projectName != event.target.dataset.projectId) {
         let OtargetProject = JSON.parse(localStorage.getItem(event.target.dataset.projectId));
         OtargetProject.forEach((todoItem, index) => {
             if (event.target.dataset.todoId === Object.keys(todoItem)[0]) {
                 OtargetProject.splice(index, 1)
             }
-            // console.log(todoItem)
         });
         localStorage.setItem(event.target.dataset.projectId, JSON.stringify(OtargetProject))
     }
-    // NewtargetProject.forEach(todoItem => {
-    //     if (event.target.dataset.todoId === Object.keys(todoItem)[0]) {
-    //         console.log(Object.values(todoItem)[0].title)
-    //         Object.values(todoItem)[0].title = title;
-    //         Object.values(todoItem)[0].description = description;
-    //         Object.values(todoItem)[0].projectName = projectName;
-    //         Object.values(todoItem)[0].dueDate = dueDate;
-    //         Object.values(todoItem)[0].priority = priority;
-    //     }
-    //     console.log(todoItem)
-    // });
-    // console.log(targetProject);
     NewtargetProject.push({ [todoItem.ID]: todoItem })
     localStorage.setItem(projectName, JSON.stringify(NewtargetProject))
 
@@ -577,7 +493,6 @@ function deleteTodoItemBasedOnCheckbox(event) {
 const addTaskBtnDIv = document.querySelector(".add-task-button");
 addTaskBtnDIv.addEventListener("click", () => {
     textAreaToEnterTodoItem.focus();
-    console.log("click hello")
 })
 
 const todayTaskBtn = document.querySelector(".today-btn")
