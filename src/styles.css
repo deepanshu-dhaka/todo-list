@@ -178,9 +178,9 @@
   width: 53rem;
   height: 6rem;
   background-color: rgb(52, 49, 49);
-  border: 1px solid white;
+  /* border: 1px solid white; */
   border-radius: 0.5rem;
-  padding: 0.6rem 0.6rem;
+  padding: 0.6rem 1rem;
   margin-top: 25px;
 }
 
