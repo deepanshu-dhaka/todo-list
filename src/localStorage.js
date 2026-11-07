@@ -19,9 +19,6 @@ function storeFormData(todoItem, INBOXID) {
 
 }
 
-function consoleStoredData(todoItem) {
-    const todoId = String(todoItem.ID);
-}
 
 function setInitialInboxId(INBOXID) {
     if (localStorage.getItem("inboxId") === null) {
@@ -46,4 +43,4 @@ function setInitialProjectTable() {
     }
 }
 
-export { storeFormData, consoleStoredData, setInitialInboxId, setInitialProjectTable }
+export { storeFormData, setInitialInboxId, setInitialProjectTable }

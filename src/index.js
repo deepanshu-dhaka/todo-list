@@ -1,7 +1,7 @@
 import "./styles.css";
 import { createTodoItem } from "./createTodoItems.js";
 import { getFormData } from "./getFormData.js";
-import { storeFormData, consoleStoredData, setInitialInboxId, setInitialProjectTable } from "./localStorage.js";
+import { storeFormData, setInitialInboxId, setInitialProjectTable } from "./localStorage.js";
 import removeIcon from "./removeIcon.png";
 import editIconSource from "./editIcon.png";
 
