@@ -107,7 +107,12 @@ function fetchTodoItemsForInboxFromLocalStorage(projectId) {
     editTodoItemIcon.forEach(singelEditIcon => {
         singelEditIcon.addEventListener("click", displayEditTodoItemForm)
     });
-    editFormSubmitBtn.addEventListener("click", updateDisplayAfterEditFormSubmission)
+    editFormSubmitBtn.addEventListener("click", updateDisplayAfterEditFormSubmission);
+
+    const checkboxsForTodo = document.querySelectorAll(".checkbox-for-todo");
+    checkboxsForTodo.forEach(element => {
+        element.addEventListener("change", deleteTodoItemBasedOnCheckbox)
+    });
 
 }
 
@@ -133,9 +138,9 @@ function displayTodoItem(title, description, dueDate, priority, todoId, projectI
 
     const checkboxForTodo = document.createElement("input");
     checkboxForTodo.type = "checkbox";
-    checkboxForTodo.id = "something";
+    checkboxForTodo.dataset.projectId = projectId;
+    checkboxForTodo.dataset.todoId = todoId;
     checkboxForTodo.name = todoId;
-    checkboxForTodo.value = "something";
     checkboxForTodo.classList.add("checkbox-for-todo");
     checkboxAndTitleDiv.appendChild(checkboxForTodo);
 
@@ -557,3 +562,13 @@ function updateDisplayAfterEditFormSubmission(event) {
     fetchTodoItemsForInboxFromLocalStorage(projectName);
 }
 
+const checkboxsForTodo = document.querySelectorAll(".checkbox-for-todo");
+checkboxsForTodo.forEach(element => {
+    element.addEventListener("change", deleteTodoItemBasedOnCheckbox)
+});
+
+function deleteTodoItemBasedOnCheckbox(event) {
+    if (event.target.checked) {
+        deleteTodoItems(event)
+    }
+}
