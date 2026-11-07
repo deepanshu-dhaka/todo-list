@@ -572,3 +572,20 @@ function deleteTodoItemBasedOnCheckbox(event) {
         deleteTodoItems(event)
     }
 }
+
+
+const addTaskBtnDIv = document.querySelector(".add-task-button");
+addTaskBtnDIv.addEventListener("click", () => {
+    textAreaToEnterTodoItem.focus();
+    console.log("click hello")
+})
+
+const todayTaskBtn = document.querySelector(".today-btn")
+todayTaskBtn.addEventListener("click", function () {
+    alert("Sorry, the feature has not been implemented yet")
+})
+
+const upcomingTaskBtn = document.querySelector(".upcoming-btn")
+upcomingTaskBtn.addEventListener("click", function () {
+    alert("Sorry, the feature has not been implemented yet")
+})
